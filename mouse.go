@@ -1,7 +1,6 @@
 package user32util
 
 import (
-	"fmt"
 	"unsafe"
 )
 
@@ -155,15 +154,13 @@ func SetCursorPos(x int32, y int32, user32 *User32DLL) (bool, error) {
 	return false, err
 }
 
-func GetCursorPos(user32 *User32DLL) (bool, error) {
+func GetCursorPos(user32 *User32DLL) (x int32, y int32, err error) {
 	point := Point{}
 	pointPointer := &point
 	p := unsafe.Pointer(pointPointer)
 	ret, _, err := user32.getCursorPos.Call(uintptr(p))
 	if ret == 1 {
-		return true, nil
+		return point.X, point.Y, nil
 	}
-	fmt.Printf("The value of ret is: ", point)
-
-	return false, err
+	return 0, 0, err
 }
