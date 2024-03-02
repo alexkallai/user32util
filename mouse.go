@@ -159,7 +159,7 @@ func GetCursorPos(user32 *User32DLL) (x int32, y int32, err error) {
 	pointPointer := &point
 	p := unsafe.Pointer(pointPointer)
 	ret, _, err := user32.getCursorPos.Call(uintptr(p))
-	if ret == 1 {
+	if ret != 0 {
 		return point.X, point.Y, nil
 	}
 	return 0, 0, err
